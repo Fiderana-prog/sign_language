@@ -1,0 +1,39 @@
+/* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS — DO NOT DELETE THIS COMMENT */
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+/* CRITICAL: THE FOLLOWING TAILWIND IMPORTS MUST NEVER BE DELETED OR REORDERED — DO NOT DELETE THIS COMMENT */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
+
+:root { font-family: 'Manrope', system-ui, sans-serif; color: #18181b; background: #fcfcfb; }
+* { box-sizing: border-box; }
+html, body { margin: 0; min-width: 320px; background: #fcfcfb; }
+button, input, textarea { font: inherit; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid #7c3aed; outline-offset: 3px; }
+.sv-mark { box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
+.sv-kicker { display: flex; align-items: center; gap: 8px; color: #71717a; font-size: 10px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+.sv-primary-button, .sv-pill-button { display: inline-flex; align-items: center; gap: 9px; border-radius: 999px; background: #18181b; color: white; font-weight: 700; transition: transform .2s ease, background .2s ease; }
+.sv-primary-button { padding: 13px 18px; font-size: 13px; }
+.sv-pill-button { padding: 10px 14px; }
+.sv-primary-button:hover, .sv-pill-button:hover { transform: translateY(-1px); background: #6d28d9; }
+.sv-avatar-stage::before { content: ''; position: absolute; z-index: 0; inset: 11% 13%; border: 1px solid rgba(124, 58, 237, .15); border-radius: 50%; pointer-events: none; }
+.sv-avatar-stage canvas { display: block; height: 100%; width: 100%; }
+.sv-coordinate { position: absolute; z-index: 2; width: 18px; height: 18px; border-color: #7c3aed; pointer-events: none; }
+.sv-coordinate-a { top: 16px; left: 16px; border-left: 1px solid; border-top: 1px solid; }
+.sv-coordinate-b { top: 16px; right: 16px; border-right: 1px solid; border-top: 1px solid; }
+.sv-app main > div:not(.sv-landing) { color: #18181b; }
+.sv-app main > div:not(.sv-landing) h1, .sv-app main > div:not(.sv-landing) h2, .sv-app main > div:not(.sv-landing) h3 { color: #18181b !important; }
+.sv-app main > div:not(.sv-landing) p { color: #71717a; }
+.sv-app main > div:not(.sv-landing) .bg-zinc-950 p { color: #d4d4d8; }
+.sv-app main > div:not(.sv-landing) .bg-slate-900, .sv-app main > div:not(.sv-landing) .bg-slate-950 { background-color: rgba(255,255,255,.88) !important; }
+.sv-app main > div:not(.sv-landing) .border-slate-800, .sv-app main > div:not(.sv-landing) .border-slate-700 { border-color: #e4e4e7 !important; }
+.sv-app main > div:not(.sv-landing) .text-slate-200, .sv-app main > div:not(.sv-landing) .text-slate-300 { color: #18181b !important; }
+.sv-app main > div:not(.sv-landing) .text-slate-400, .sv-app main > div:not(.sv-landing) .text-slate-500, .sv-app main > div:not(.sv-landing) .text-slate-600 { color: #71717a !important; }
+.sv-app main > div:not(.sv-landing) .bg-indigo-600 { background-color: #18181b !important; }
+.sv-app main > div:not(.sv-landing) .bg-indigo-600.text-white { color: white !important; }
+.sv-app main > div:not(.sv-landing) .text-indigo-300, .sv-app main > div:not(.sv-landing) .text-indigo-400 { color: #6d28d9 !important; }
+.sv-app main > div:not(.sv-landing) textarea, .sv-app main > div:not(.sv-landing) input { color: #18181b !important; background: #fff !important; border-color: #d4d4d8 !important; }
+.sv-app main > div:not(.sv-landing) textarea::placeholder, .sv-app main > div:not(.sv-landing) input::placeholder { color: #a1a1aa !important; }

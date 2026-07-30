@@ -1,0 +1,25 @@
+
+import React, { useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRightIcon, CheckIcon, RotateCcwIcon, TrophyIcon, XIcon } from 'lucide-react';
+import { SigningAvatar } from '../components/SigningAvatar';
+import { SIGNS, type Sign } from '../data/signs';
+
+interface Question {sign: Sign;options: string[];}
+function buildQuiz(): Question[] {return [...SIGNS].sort(() => Math.random() - 0.5).slice(0, 5).map((sign) => ({ sign, options: [sign.label, ...SIGNS.filter((item) => item.word !== sign.word).sort(() => Math.random() - 0.5).slice(0, 2).map((item) => item.label)].sort(() => Math.random() - 0.5) }));}
+
+export function Learn() {
+  const [quiz, setQuiz] = useState<Question[]>(buildQuiz);
+  const [index, setIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [answer, setAnswer] = useState<string | null>(null);
+  const [finished, setFinished] = useState(false);
+  const question = quiz[index];
+  const progress = useMemo(() => (index + (finished ? 1 : 0)) / quiz.length * 100, [index, finished, quiz.length]);
+  const choose = (option: string) => {if (answer) return;setAnswer(option);if (option === question.sign.label) setScore((value) => value + 1);};
+  const next = () => {if (index + 1 === quiz.length) setFinished(true);else {setIndex((value) => value + 1);setAnswer(null);}};
+  const restart = () => {setQuiz(buildQuiz());setIndex(0);setScore(0);setAnswer(null);setFinished(false);};
+
+  return <div className="mx-auto w-full max-w-5xl px-6 py-10 lg:px-12"><header className="flex flex-wrap items-end justify-between gap-5 border-b border-zinc-200 pb-7"><div><p className="sv-kicker">Apprentissage / 05</p><h1 className="mt-4 text-4xl font-extrabold tracking-[-0.07em] text-zinc-950 md:text-6xl">Lire le <span className="text-violet-600">geste.</span></h1></div><p className="font-mono text-xs text-zinc-400">SCORE / {score.toString().padStart(2, '0')}</p></header><div className="mt-7 flex items-center gap-4"><div className="h-px flex-1 bg-zinc-200"><motion.div className="h-px bg-violet-600" animate={{ width: `${progress}%` }} transition={{ duration: .35 }} /></div><span className="font-mono text-[10px] text-zinc-500">{String(index + 1).padStart(2, '0')} / {String(quiz.length).padStart(2, '0')}</span></div>
+  {finished ? <section className="mt-10 border border-zinc-200 bg-white p-8 text-center md:p-14"><div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-violet-100 text-violet-700"><TrophyIcon className="h-6 w-6" /></div><h2 className="mt-6 text-4xl font-extrabold tracking-[-.06em] text-zinc-950">{score} / {quiz.length}</h2><p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-zinc-500">{score === quiz.length ? 'Parfait. Vous reconnaissez tous ces signes.' : 'Chaque répétition améliore votre lecture des gestes.'}</p><button onClick={restart} className="sv-primary-button mx-auto mt-7"><RotateCcwIcon className="h-4 w-4" /> Nouvelle série</button></section> : <section className="mt-10 grid overflow-hidden border border-zinc-200 bg-white md:grid-cols-[1.05fr_.95fr]"><div className="relative min-h-[380px] bg-[#f5efff]"><SigningAvatar poses={question.sign.poses} playing speed={1} rotation={0} zoom={1.08} /><div className="absolute left-5 top-5 font-mono text-[10px] uppercase tracking-[.16em] text-violet-600">Observer la séquence</div></div><div className="flex flex-col p-6 md:p-9"><p className="font-mono text-[10px] uppercase tracking-[.16em] text-zinc-400">Question {String(index + 1).padStart(2, '0')}</p><h2 className="mt-4 text-3xl font-extrabold leading-none tracking-[-.06em] text-zinc-950">Quel signe voyez-vous ?</h2><div className="mt-8 space-y-2">{question.options.map((option, optionIndex) => {const correct = option === question.sign.label;const chosen = answer === option;const state = !answer ? 'border-zinc-200 hover:border-violet-500 hover:bg-violet-50' : correct ? 'border-green-500 bg-green-50 text-green-800' : chosen ? 'border-red-500 bg-red-50 text-red-800' : 'border-zinc-200 text-zinc-400';return <button key={option} onClick={() => choose(option)} disabled={!!answer} className={`flex w-full items-center justify-between border px-4 py-3 text-left text-sm font-bold transition-colors ${state}`}><span><span className="mr-3 font-mono text-[10px] text-zinc-400">0{optionIndex + 1}</span>{option}</span>{answer && correct && <CheckIcon className="h-4 w-4" />}{answer && chosen && !correct && <XIcon className="h-4 w-4" />}</button>;})}</div>{answer && <div className="mt-auto pt-7"><p className="border-l-2 border-violet-500 pl-3 text-sm leading-relaxed text-zinc-500">{answer === question.sign.label ? 'Correct. ' : 'La réponse était « ' + question.sign.label + ' ». '}{question.sign.definition}</p><button onClick={next} className="sv-primary-button mt-5">{index + 1 === quiz.length ? 'Voir le résultat' : 'Question suivante'} <ArrowRightIcon className="h-4 w-4" /></button></div>}</div></section>}</div>;
+}
