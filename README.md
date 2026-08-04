@@ -1,5 +1,5 @@
-#Lien du deployement: https://sign-language-5grl.onrender.com
-#lien du powerPoint: https://canva.link/udfvdvsyvb2eu3h
+# Lien du deployement: https://sign-language-5grl.onrender.com
+# lien du powerPoint: https://canva.link/udfvdvsyvb2eu3h
 
 # SignVerse complet corrigé
 
