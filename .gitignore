@@ -1,0 +1,21 @@
+# Python
+backend/.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# IA
+*.keras
+*.h5
+*.pt
+*.pth
+*.onnx
+
+# Logs
+*.log
+
+# OS
+.DS_Store

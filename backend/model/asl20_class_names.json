@@ -1,0 +1,27 @@
+{
+  "class_names": [
+    "baby",
+    "eat",
+    "father",
+    "finish",
+    "good",
+    "happy",
+    "hear",
+    "house",
+    "important",
+    "love",
+    "mall",
+    "me",
+    "mosque",
+    "mother",
+    "normal",
+    "sad",
+    "stop",
+    "thanks",
+    "thinking",
+    "worry"
+  ],
+  "image_size": 224,
+  "sequence_length": 30,
+  "decode_fps": 8
+}

@@ -1,0 +1,105 @@
+{
+  "animation_count": 20,
+  "animations": [
+    {
+      "name": "WORD_BABY",
+      "selected_source": "WORD_BABY.001",
+      "variation": 1.6170719861984253
+    },
+    {
+      "name": "WORD_EAT",
+      "selected_source": "WORD_EAT.001",
+      "variation": 1.6956703066825867
+    },
+    {
+      "name": "WORD_FATHER",
+      "selected_source": "WORD_FATHER.001",
+      "variation": 1.9457511901855469
+    },
+    {
+      "name": "WORD_FINISH",
+      "selected_source": "WORD_FINISH.001",
+      "variation": 1.874553382396698
+    },
+    {
+      "name": "WORD_GOOD",
+      "selected_source": "WORD_GOOD.001",
+      "variation": 1.7652069926261902
+    },
+    {
+      "name": "WORD_HAPPY",
+      "selected_source": "WORD_HAPPY.001",
+      "variation": 1.9164906740188599
+    },
+    {
+      "name": "WORD_HEAR",
+      "selected_source": "WORD_HEAR.001",
+      "variation": 1.8915830254554749
+    },
+    {
+      "name": "WORD_HOUSE",
+      "selected_source": "WORD_HOUSE.001",
+      "variation": 1.7216187119483948
+    },
+    {
+      "name": "WORD_IMPORTANT",
+      "selected_source": "WORD_IMPORTANT.001",
+      "variation": 1.5696828961372375
+    },
+    {
+      "name": "WORD_LOVE",
+      "selected_source": "WORD_LOVE.001",
+      "variation": 1.8925272226333618
+    },
+    {
+      "name": "WORD_MALL",
+      "selected_source": "WORD_MALL.001",
+      "variation": 1.89080148935318
+    },
+    {
+      "name": "WORD_ME",
+      "selected_source": "WORD_ME.001",
+      "variation": 1.7850517630577087
+    },
+    {
+      "name": "WORD_MOSQUE",
+      "selected_source": "WORD_MOSQUE.001",
+      "variation": 1.6205800771713257
+    },
+    {
+      "name": "WORD_MOTHER",
+      "selected_source": "WORD_MOTHER.001",
+      "variation": 1.5488548874855042
+    },
+    {
+      "name": "WORD_NORMAL",
+      "selected_source": "WORD_NORMAL.001",
+      "variation": 1.5681438446044922
+    },
+    {
+      "name": "WORD_SAD",
+      "selected_source": "WORD_SAD.001",
+      "variation": 1.7080570459365845
+    },
+    {
+      "name": "WORD_STOP",
+      "selected_source": "WORD_STOP.001",
+      "variation": 1.8451160192489624
+    },
+    {
+      "name": "WORD_THANKS",
+      "selected_source": "WORD_THANKS.001",
+      "variation": 1.9537951350212097
+    },
+    {
+      "name": "WORD_THINKING",
+      "selected_source": "WORD_THINKING.001",
+      "variation": 1.838474690914154
+    },
+    {
+      "name": "WORD_WORRY",
+      "selected_source": "WORD_WORRY.002",
+      "variation": 1.5860247611999512
+    }
+  ]
+}
