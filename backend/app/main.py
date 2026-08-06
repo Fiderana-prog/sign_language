@@ -1,9 +1,16 @@
 from __future__ import annotations
 
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+
 import json
 import subprocess
 import tempfile
 from pathlib import Path
+from threading import Lock
 from typing import Any
 
 import numpy as np
@@ -11,6 +18,12 @@ import tensorflow as tf
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image, ImageOps
+
+
+try:
+    tf.config.set_visible_devices([], "GPU")
+except RuntimeError:
+    pass
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -76,8 +89,41 @@ def load_keras_model(path: Path) -> tf.keras.Model:
     return tf.keras.models.load_model(path, compile=False)
 
 
-WORDS_MODEL = load_keras_model(WORDS_MODEL_PATH)
-ALPHABET_MODEL = load_keras_model(ALPHABET_MODEL_PATH)
+WORDS_MODEL: tf.keras.Model | None = None
+ALPHABET_MODEL: tf.keras.Model | None = None
+
+WORDS_MODEL_LOCK = Lock()
+ALPHABET_MODEL_LOCK = Lock()
+
+
+def get_words_model() -> tf.keras.Model:
+    global WORDS_MODEL
+
+    if WORDS_MODEL is not None:
+        return WORDS_MODEL
+
+    with WORDS_MODEL_LOCK:
+        if WORDS_MODEL is None:
+            print("Chargement du modèle ASL mots...", flush=True)
+            WORDS_MODEL = load_keras_model(WORDS_MODEL_PATH)
+            print("Modèle ASL mots chargé.", flush=True)
+
+    return WORDS_MODEL
+
+
+def get_alphabet_model() -> tf.keras.Model:
+    global ALPHABET_MODEL
+
+    if ALPHABET_MODEL is not None:
+        return ALPHABET_MODEL
+
+    with ALPHABET_MODEL_LOCK:
+        if ALPHABET_MODEL is None:
+            print("Chargement du modèle alphabet ASL...", flush=True)
+            ALPHABET_MODEL = load_keras_model(ALPHABET_MODEL_PATH)
+            print("Modèle alphabet ASL chargé.", flush=True)
+
+    return ALPHABET_MODEL
 
 
 app = FastAPI(
@@ -326,7 +372,9 @@ def predict_word_sequence(
     valid_frames: int,
     mode: str,
 ) -> dict[str, Any]:
-    probabilities = WORDS_MODEL.predict(
+    words_model = get_words_model()
+
+    probabilities = words_model.predict(
         [
             frames[None, ...].astype(np.float32),
             mask[None, ...].astype(np.float32),
@@ -362,7 +410,9 @@ def predict_alphabet_image(
         ALPHABET_IMAGE_SIZE,
     )
 
-    probabilities = ALPHABET_MODEL.predict(
+    alphabet_model = get_alphabet_model()
+
+    probabilities = alphabet_model.predict(
         image[None, ...].astype(np.float32),
         verbose=0,
     )[0]
@@ -418,6 +468,11 @@ def root() -> dict[str, Any]:
     }
 
 
+@app.get("/health")
+def render_health() -> dict[str, str]:
+    return {"status": "ok"}
+
+
 @app.get("/api/health")
 def health() -> dict[str, Any]:
     return {
@@ -426,19 +481,21 @@ def health() -> dict[str, Any]:
         "models": {
             "words": {
                 "name": WORDS_MODEL_PATH.name,
+                "available": WORDS_MODEL_PATH.exists(),
+                "loaded": WORDS_MODEL is not None,
                 "class_count": len(WORDS_CLASSES),
                 "classes": WORDS_CLASSES,
                 "image_size": IMAGE_SIZE,
                 "sequence_length": SEQUENCE_LENGTH,
                 "decode_fps": DECODE_FPS,
-                "input_shapes": shape_to_json(WORDS_MODEL.input_shape),
             },
             "alphabet": {
                 "name": ALPHABET_MODEL_PATH.name,
+                "available": ALPHABET_MODEL_PATH.exists(),
+                "loaded": ALPHABET_MODEL is not None,
                 "class_count": len(ALPHABET_CLASSES),
                 "classes": ALPHABET_CLASSES,
                 "image_size": ALPHABET_IMAGE_SIZE,
-                "input_shape": shape_to_json(ALPHABET_MODEL.input_shape),
             },
         },
     }
